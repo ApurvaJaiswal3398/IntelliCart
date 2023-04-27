@@ -1,0 +1,28 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        input[type='radio']{
+            transform: scale(2);
+            margin: 2rem;
+         }
+    </style>
+</head>
+<body>
+    <div>
+        <form method="POST">
+            <input type="radio" name="cart" value="active" id="act" checked>active
+            <input type="radio" name="cart" value="inactive" id="deact">inactive<br>
+            <button>Cart action</button>
+        </form>
+        <form method="POST">
+            <input type="radio" name="scan" value="1" id="one" checked>1
+            <input type="radio" name="scan" value="2" id="two">2
+            <input type="radio" name="scan" value="3" id="three">3<br>
+            <button>Add product</button>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<style>
+    .main{
+        margin: 10px;
+        margin-top: 50px;
+    }
+    
+    .sub-main{
+        margin:20px;
+        padding: 20px;
+    }
+</style>
+{% endblock %}
+{% block title %}View Cart Details By Date{% endblock %}
+{% block body %}
+{% if logged_in %}
+<div class="container-fluid main">
+    <div class="card" style="background-color: transparent; border: none; margin: 70px 70px -30px;">
+        <a href="/dashboard"><button type="button" class="btn btn-outline-primary" style="margin: 10px; float: right;">Back to Dashboard</button></a>
+    </div>
+    {% if message != None %}
+    <div class="row" style="margin: 50px 70px -30px;">
+        <div class="col-sm-12 alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="sub-main mx-auto" style="width: 90%;">
+        <center>
+            <table class="table table-hover table-inverse table-responsive" style="height: 500px;">
+                <h3 style="float: left;">Customers' Carts Details</h3>
+                <thead class="thead-inverse">
+                    <tr>
+                        <th>ID</th>
+                        <th>Assignment Id</th>
+                        <th>Cart Id</th>
+                        <th>Used Date</th>
+                        <th>Product Id</th>
+                        <th>Quantity</th>
+                        <th>Billing</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in cccrsr.find().sort("_id") %}
+                    <tr>
+                        <td scope="row">{{ i["_id"] }}</td>
+                        <td>{{ i["assign_id"] }}</td>
+                        <td>{{ i["cart_id"] }}</td>
+                        <td>{{ i["used_date"] }}</td>
+                        <td>{{ i["product_id"] }}</td>
+                        <td>{{ i["quantity"] }}</td>
+                        <td>{{ i["billing"] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </center>
+        </table>
+    </div>
+    <div class="sub-main mx-auto" style="width: 90%;">
+        <form method="POST">
+            <div class="form-group">
+                <label for="udate">Select Date to View the Cart Details</label>
+                <input type="date" class="form-control" style="width: 180px;" name="udate" id="udate" align="right" aria-describedby="udateID" placeholder="Cart Id" value="{{ udate }}">
+                <small id="udateID" class="form-text text-muted">Take help from the table above</small>
+                <button type="submit" name="modify" id="modify" class="btn btn-outline-primary" btn-lg btn-block">Proceed</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="row row-col-6" style="margin: 75px 50px; background-color: rgba(65, 146, 179, 0.1);">
+    <div class="card mx-auto d-block">
+        <div class="card-body text-center" style="padding: 50px; margin: 50px;">
+            <h3>First Log In to view contents of this page.!</h3><br>
+            <form method="POST" class="text-center">
+                <a href="/login"><button type="button" class="btn btn-danger col-sm-6 text-center rounded-pill">Login Now</button></a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

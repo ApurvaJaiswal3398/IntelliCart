@@ -1,0 +1,98 @@
+{% extends 'layout.html' %}
+
+{% block css %}
+<style>
+    .main{
+        margin: 10px;
+        margin-top: 50px;
+    }
+    
+    .sub-main{
+        margin:20px;
+        padding: 20px;
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+{% if logged_in %}
+<div class="container-fluid main">
+    {% if message != None %}
+    <div class="row" style="margin: 70px 70px -30px;">
+        <div class="col-sm-12 alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    </div>
+    {% endif %}
+    <div class="card" style="background-color: transparent; border: none;">
+        <a href="/dashboard"><button type="button" class="btn btn-outline-primary" style="margin: 10px; float: right;">Back to Dashboard</button></a>
+    </div>
+    <div class="sub-main">
+        <table class="table table-hover table-inverse table-responsive">
+            <thead class="thead-inverse">
+                <tr>
+                    <th>ID</th>
+                    <th>Status</th>
+                    <th>Use</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for i in crtcrsr.find().sort("_id") %}
+                <tr>
+                    <td scope="row">{{ i["_id"] }}</td>
+                    <td>{{ i["status"] }}</td>
+                    <td>{{ i["use"] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <div class="sub-main">
+        <form method="POST">
+            <div class="form-group">
+                <label for="cid">Enter Cart Id to Edit Data</label>
+                <input type="text" class="form-control" name="cid" id="cid" onblur="checkcartid()" placeholder="Cart Id" required>
+                <small id="smallmsg" class="form-text text-muted">Take help from the table above</small>
+                <button type="submit" name="modify" id="modify" class="btn btn-outline-primary" btn-lg btn-block">Proceed to Mdify</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% else %}
+<div class="row row-col-6" style="margin: 75px 50px; background-color: rgba(65, 146, 179, 0.1);">
+    <div class="card mx-auto d-block">
+        <div class="card-body text-center" style="padding: 50px; margin: 50px;">
+            <h3>First Log In to view contents of this page.!</h3><br>
+            <form method="POST" class="text-center">
+                <a href="/login"><button type="button" class="btn btn-danger col-sm-6 text-center rounded-pill">Login Now</button></a>
+            </form>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
+
+{% block js %}
+<script type="text/javascript">
+    function checkcartid()
+    {
+        var regex=/^\d+$/ ;
+        var cid=document.getElementById('cid').value;
+        if(cid!="")
+        {
+            if(!regex.test(cid))
+            {
+                alert("Enter a Valid Cart ID!");
+                document.getElementById('cid').style.border="thin solid red";
+                document.getElementById('cid').value="";
+                document.getElementById('cid').focus();
+            }
+            else
+            {
+                document.getElementById('cid').style.border="0px";
+            }
+        }
+        document.body.focus();
+    }
+</script>
+{% endblock %}
